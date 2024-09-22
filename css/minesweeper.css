@@ -130,7 +130,7 @@ td:hover {
 }
 
 .show {
-  display: block;
+  background-color: #00796b;
 }
 
 .hidden {

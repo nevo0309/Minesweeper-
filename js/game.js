@@ -101,6 +101,7 @@ function onCellClicked(elCell, i, j) {
   gBoard[i][j].minesAroundCount = negsCount
   gBoard[i][j].isShown = true
   elCell.innerHTML = negsCount
+  elCell.classList.add('show')
   expandShown(gBoard, elCell, i, j)
   checkGameOver()
 }
@@ -167,6 +168,7 @@ function expandShown(board, elCell, cellI, cellJ) {
           board
         )
         elNeighbor.innerHTML = neighborCell.minesAroundCount
+        elNeighbor.classList.add('show')
         if (neighborCell.minesAroundCount === 0)
           expandShown(board, elNeighbor, i, j)
       }
