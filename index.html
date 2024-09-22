@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Document</title>
+    <link rel="stylesheet" href="css/minesweeper.css" />
+  </head>
+  <body onload="onInit()" oncontextmenu="return false">
+    <div class="container">
+      <div class="main-bar">
+        <div class="life">
+          <div class="life-count"></div>
+        </div>
+        <div class="mines-container">
+          <div class="mines">Mines to mark:</div>
+          <div class="Mines-Marked">0</div>
+        </div>
+
+        <div class="timer">
+          Timer
+          <div class="stopwatch-container">
+            <div class="stopWatch">00:00</div>
+          </div>
+        </div>
+        <div class="difficulty">
+          Difficulty
+          <div class="opp">
+            <button onclick="setLevel(4,2)">Easy</button>
+            <button onclick="setLevel(8,12)">Medium</button>
+            <button onclick="setLevel(12,32)">Expert</button>
+          </div>
+        </div>
+      </div>
+      <table class="board-container">
+        <tbody class="board"></tbody>
+      </table>
+    </div>
+    <div class="modal hidden" id="gameModal">
+      <div class="modal-content">
+        <span class="close">&times;</span>
+        <h2 id="modalMessage"></h2>
+        <button onclick="restartGame()">Restart</button>
+      </div>
+    </div>
+    <script src="js/utils.js"></script>
+    <script src="js/timer.js"></script>
+    <script src="js/game.js"></script>
+  </body>
+  <footer>
+    <div class="name">Nevo Yaakoby</div>
+  </footer>
+</html>
