@@ -44,7 +44,7 @@ body {
   font-size: 5rem;
   margin-left: 10px; /* Add spacing between the label and the count */
 }
-x .mines,
+.mines,
 .timer,
 .difficulty {
   flex: 0.25; /* Allow items to grow evenly */
@@ -148,6 +148,23 @@ td:hover {
   margin: 0; /* Remove default margin */
 }
 
+.close {
+  cursor: pointer;
+  float: right;
+  font-size: 28px;
+}
+
+footer {
+  display: flex;
+  justify-content: center; /* Center the footer content */
+  align-items: center; /* Vertically center the content */
+  background-color: #00796b;
+  color: #ffffff;
+  padding: 10px 0; /* Vertical padding for spacing */
+  font-size: 1.5rem;
+  border-top: 3px solid #004d40;
+  width: 10%;
+}
 .modal {
   display: none;
   position: fixed;
@@ -167,22 +184,4 @@ td:hover {
   padding: 20px;
   border: 1px solid #888;
   text-align: center;
-}
-
-.close {
-  cursor: pointer;
-  float: right;
-  font-size: 28px;
-}
-
-footer {
-  display: flex;
-  justify-content: center; /* Center the footer content */
-  align-items: center; /* Vertically center the content */
-  background-color: #00796b;
-  color: #ffffff;
-  padding: 10px 0; /* Vertical padding for spacing */
-  font-size: 1.5rem;
-  border-top: 3px solid #004d40;
-  width: 10%;
 }

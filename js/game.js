@@ -167,6 +167,8 @@ function expandShown(board, elCell, cellI, cellJ) {
           board
         )
         elNeighbor.innerHTML = neighborCell.minesAroundCount
+        if (neighborCell.minesAroundCount === 0)
+          expandShown(board, elNeighbor, i, j)
       }
     }
   }
@@ -181,25 +183,30 @@ function renderLife() {
   elLife.innerText = life
 }
 function checkGameOver() {
+  console.log('hi')
   if (
     gGame.markedCount === gLevel.Mines ||
     gGame.shownCount === gLevel.Size * gLevel.Size - gLevel.Mines
   ) {
     gGame.isOn = false
     showModal('You Win!')
+    stopTimer()
     return
   }
   if (gLifes === 0) {
     gGame.isOn = false
     showModal('You Lose!')
+    stopTimer()
     return
   }
 }
 function showModal(message) {
+  console.log('Showing modal:', message)
   const modal = document.getElementById('gameModal')
   const modalMessage = document.getElementById('modalMessage')
   modalMessage.textContent = message
-  modal.classList.remove('hidden')
+  modal.style.display = 'block' // Check if this line executes
+  console.log('Modal classes:', modal.classList) // Log the classes of the modal
 }
 
 function closeModal() {
