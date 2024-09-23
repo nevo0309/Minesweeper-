@@ -91,22 +91,23 @@ function getClassName(location) {
 //   document.querySelector('h2 span').innerText = gGame.score
 // }
 
-// function getEmptyCell() {
-//   var emptyCells = []
+function getEmptyCell() {
+  var safeCells = []
 
-//   for (var i = 0; i < gBoard.length; i++) {
-//     for (var j = 0; j < gBoard[0].length; j++) {
-//       var currCell = gBoard[i][j]
-//       if (!currCell.gameElement && currCell.type === FLOOR) {
-//         var emptyCellPos = { i, j }
-//         emptyCells.push(emptyCellPos)
-//       }
-//     }
-//   }
-//   var randomIdx = getRandomInt(0, emptyCells.length)
-//   var emptyCell = emptyCells[randomIdx]
-//   return emptyCell
-// }
+  for (var i = 0; i < gBoard.length; i++) {
+    for (var j = 0; j < gBoard[0].length; j++) {
+      var currCell = gBoard[i][j]
+      if (!currCell.isMine && !currCell.isShown) {
+        var safeCellPos = { i, j }
+        safeCells.push(safeCellPos)
+      }
+    }
+  }
+  if (safeCells.push === 0) return null
+  var randomIdx = getRandomInt(0, safeCells.length)
+  var safeCell = safeCells[randomIdx]
+  return safeCell
+}
 
 // function addElement(element, elementImg) {
 //   var emptyCell = getEmptyCell()

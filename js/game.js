@@ -2,26 +2,35 @@
 var gBoard
 var gMinesToMark
 var gLifes
+var gHints
+var gSafeClicks
+const elButton = document.querySelector('.reset')
 const elMarkedMine = document.querySelector('.Mines-Marked')
 const MINES = '💣'
-const gGame = {
-  isOn: false,
-  shownCount: 0,
-  markedCount: 0,
-  secsPassed: 0,
-  isFirstClicked: true,
-}
+var gGame
 var gLevel = { Size: 4, Mines: 2 }
 
 function onInit() {
   console.log('Game initialized')
+  gGame = {
+    isOn: false,
+    shownCount: 0,
+    markedCount: 0,
+    secsPassed: 0,
+    isFirstClicked: true,
+  }
   startTimer()
   gBoard = createBoard(gLevel.Size)
   renderBoard(gBoard)
   gLifes = 3
   renderLife()
+  gSafeClicks = 3
+  gHints = 3
+  renderHints()
   gMinesToMark = gLevel.Mines
   elMarkedMine.innerHTML = gMinesToMark
+  gGame.isFirstClicked = true
+  gGame.isOn = false
   resetTimer()
 }
 
@@ -96,6 +105,7 @@ function onCellClicked(elCell, i, j) {
 
   if (gBoard[i][j].isMarked) return
   gGame.shownCount++
+  console.log('gGame.shownCount', gGame.shownCount)
   gBoard[i][j].isShown = true
   var negsCount = setMinesNegsCount(elCell, i, j, gBoard)
   gBoard[i][j].minesAroundCount = negsCount
@@ -147,6 +157,18 @@ function gameLives(elCell) {
     checkGameOver()
   }
 }
+function getSafe() {
+  if (gSafeClicks > 0 && !gGame.isFirstClicked) {
+    gSafeClicks--
+    var hintCell = getEmptyCell()
+    if (!hintCell) return
+    var elHintCell = document.querySelector(`.cell-${hintCell.i}-${hintCell.j}`)
+    elHintCell.classList.add('get-safe')
+    setTimeout(() => {
+      elHintCell.classList.remove('get-safe')
+    }, 1500)
+  }
+}
 
 function expandShown(board, elCell, cellI, cellJ) {
   for (var i = cellI - 1; i <= cellI + 1; i++) {
@@ -167,6 +189,8 @@ function expandShown(board, elCell, cellI, cellJ) {
           j,
           board
         )
+        gGame.shownCount++
+        console.log('gGame.shownCount', gGame.shownCount)
         elNeighbor.innerHTML = neighborCell.minesAroundCount
         elNeighbor.classList.add('show')
         if (neighborCell.minesAroundCount === 0)
@@ -184,41 +208,44 @@ function renderLife() {
   }
   elLife.innerText = life
 }
+function renderHints() {
+  const elHints = document.querySelector('.hint-count')
+  let hint = ''
+
+  for (let i = 0; i < gSafeClicks; i++) {
+    hint += '💡'
+  }
+  elHints.innerText = hint
+}
 function checkGameOver() {
   console.log('hi')
   if (
-    gGame.markedCount === gLevel.Mines ||
+    gGame.markedCount === gLevel.Mines &&
     gGame.shownCount === gLevel.Size * gLevel.Size - gLevel.Mines
   ) {
     gGame.isOn = false
-    showModal('You Win!')
+    console.log('you win!')
+
+    updateButton('😎')
     stopTimer()
     return
   }
   if (gLifes === 0) {
     gGame.isOn = false
-    showModal('You Lose!')
+    console.log('you lose!')
+
+    updateButton('🤯')
     stopTimer()
     return
   }
 }
-function showModal(message) {
-  console.log('Showing modal:', message)
-  const modal = document.getElementById('gameModal')
-  const modalMessage = document.getElementById('modalMessage')
-  modalMessage.textContent = message
-  modal.style.display = 'block' // Check if this line executes
-  console.log('Modal classes:', modal.classList) // Log the classes of the modal
+function updateButton(emoji) {
+  elButton.innerHTML = `${emoji}`
 }
-
-function closeModal() {
-  const modal = document.getElementById('gameModal')
-  modal.classList.add('hidden')
-}
-
-function restartGame() {
-  closeModal()
+function restartGame(emoji) {
+  elButton.innerHTML = '😁'
   onInit()
+  return
 }
 
 function setLevel(size, mines) {

@@ -13,6 +13,11 @@
         <div class="life">
           <div class="life-count"></div>
         </div>
+        <div class="hint">
+          Hints:
+          <div class="hint-count" onclick="getHint()"></div>
+        </div>
+        <button class="reset" onclick="restartGame()">😁</button>
         <div class="mines-container">
           <div class="mines">Mines to mark:</div>
           <div class="Mines-Marked">0</div>
@@ -36,14 +41,14 @@
       <table class="board-container">
         <tbody class="board"></tbody>
       </table>
-    </div>
-    <div class="modal hidden" id="gameModal">
-      <div class="modal-content">
-        <span class="close">x</span>
-        <h2 id="modalMessage"></h2>
-        <button onclick="restartGame()">Restart</button>
+      <div class="safe">
+        <div class="safe-click">
+          <button onclick="getSafe()">Safe Click</button>
+          <div class="safe-count">*3 Clicks Available</div>
+        </div>
       </div>
     </div>
+
     <script src="js/utils.js"></script>
     <script src="js/timer.js"></script>
     <script src="js/game.js"></script>
