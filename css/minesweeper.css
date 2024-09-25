@@ -158,12 +158,38 @@ td:hover {
   justify-content: center;
   align-items: center;
 }
+
+.game-container {
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  margin-top: 20px;
+}
+
+.manual-mine-counter-container {
+  display: none;
+  margin-left: 30px; /* Space between the board and the counter */
+  text-align: center;
+  font-size: 2rem;
+  color: #00796b;
+}
+
+.manual-mine-desc {
+  font-size: 1.5rem;
+  color: #00796b;
+}
+
+.manual-mine-counter {
+  font-size: 2.5rem;
+  color: #f44336;
+}
+
 .get-safe {
   background-color: #fefefe;
 }
 
 .name {
-  margin: 0; /* Remove default margin */
+  margin: 0;
 }
 
 .close {
@@ -178,7 +204,7 @@ td:hover {
 }
 
 .safe-click button {
-  margin-right: 250px;
+  margin-right: 0;
   font-size: 1.5rem;
   border-radius: 8px;
   color: #ffffff;
@@ -192,7 +218,25 @@ td:hover {
 .safe-click button:hover {
   background-color: #004d40;
 }
+.dark-mode-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+}
 
+.dark-mode-container button {
+  background-color: #000000;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.dark-mode {
+  background-color: #000000;
+}
 footer {
   display: flex;
   justify-content: center; /* Center the footer content */
