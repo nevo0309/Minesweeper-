@@ -3,16 +3,31 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
     <title>Document</title>
     <link rel="stylesheet" href="css/minesweeper.css" />
   </head>
   <body onload="onInit()" oncontextmenu="return false">
     <div class="container">
-      <div class="main-bar">
+      <!-- First Bar: Life, Smiley, Timer, Mines to Mark -->
+      <div class="top-bar">
         <div class="life">
           <div class="life-count"></div>
         </div>
+        <button class="reset" onclick="restartGame()">😁</button>
+        <div class="timer">
+          Timer
+          <div class="stopwatch-container">
+            <div class="stopWatch">00:00</div>
+          </div>
+        </div>
+        <div class="mines-container">
+          <div class="mines">Mines to mark:</div>
+          <div class="Mines-Marked">0</div>
+        </div>
+      </div>
+
+      <!-- Second Bar: Hints, Manual Mine Placement, Mega Hint, Manual Mine Counter, Difficulty -->
+      <div class="bottom-bar">
         <div class="hint">
           Hints:
           <div class="hint-count" onclick="getHint()"></div>
@@ -20,18 +35,19 @@
         <button class="manual-mine" onclick="toggleManualMine()">
           Manual Mine Placement
         </button>
-        <button class="reset" onclick="restartGame()">😁</button>
-        <div class="mines-container">
-          <div class="mines">Mines to mark:</div>
-          <div class="Mines-Marked">0</div>
-        </div>
 
-        <div class="timer">
-          Timer
-          <div class="stopwatch-container">
-            <div class="stopWatch">00:00</div>
-          </div>
+        <!-- Manual Mine Counter -->
+        <div class="manual-mine-counter-container">
+          <div class="manual-mine-desc">Mines left to set:</div>
+          <div class="manual-mine-counter">0</div>
         </div>
+        <button class="exterminator-btn" onclick="mineExterminator()">
+          Mine Exterminator
+        </button>
+
+        <!-- <button class="mega-hint-btn" onclick="activeMegaHint()">
+          Mega Hint
+        </button> -->
         <div class="difficulty">
           Difficulty
           <div class="opp">
@@ -41,24 +57,25 @@
           </div>
         </div>
       </div>
+
+      <!-- Game board and safe click -->
       <div class="game-container">
         <table class="board-container">
           <tbody class="board"></tbody>
         </table>
-        <div class="manual-mine-counter-container">
-          <div class="manual-mine-desc">Mines left to set:</div>
-          <div class="manual-mine-counter">0</div>
-        </div>
       </div>
-      <div class="dark-mode-container">
-        <div class="dark">
-          <button onclick="darkMode()">Darke Mode</button>
-        </div>
-      </div>
+
       <div class="safe">
         <div class="safe-click">
           <button onclick="getSafe()">Safe Click</button>
           <div class="safe-count">*3 Clicks Available</div>
+        </div>
+      </div>
+
+      <!-- Dark Mode Button -->
+      <div class="dark-mode-container">
+        <div class="dark">
+          <button onclick="darkMode()">Dark Mode</button>
         </div>
       </div>
     </div>
