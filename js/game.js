@@ -26,6 +26,7 @@ function onInit() {
     isManualMine: false,
     isMegaHint: false,
   }
+
   gMegaHintCount = 1
   gBoard = createBoard(gLevel.Size)
   renderBoard(gBoard)
@@ -58,6 +59,7 @@ function createBoard(size) {
 }
 
 function renderBoard(board) {
+  document.querySelector('.board').innerHTML = ''
   var strHTML = ''
   for (var i = 0; i < board.length; i++) {
     strHTML += '<tr>'
@@ -128,15 +130,15 @@ function onCellClicked(elCell, i, j) {
       }
     }
   }
-  // if (gGame.isMegaHint) {
-  //   if (!gFirstCorner) {
-  //     gFirstCorner = { i, j }
-  //   } else if (!gSeconedCorner) {
-  //     gSeconedCorner = { i, j }
-  //     revealMegaHintArea()
-  //   }
-  //   return
-  // }
+  if (gGame.isMegaHint) {
+    if (!gFirstCorner) {
+      gFirstCorner = { i, j }
+    } else if (!gSeconedCorner) {
+      gSeconedCorner = { i, j }
+      revealMegaHintArea()
+    }
+    return
+  }
   if (!gGame.isOn || gBoard[i][j].isShown) return
   if (gBoard[i][j].isMine) {
     gameLives(elCell)
@@ -277,6 +279,7 @@ function checkGameOver() {
   }
 }
 function toggleManualMine() {
+  if (gGame.isOn) return
   gGame.isManualMine = !gGame.isManualMine
   gManualMines = []
 
@@ -322,45 +325,43 @@ function hideAllMines() {
   }
 }
 
-// function activeMegaHint() {
-//   if (gMegaHintCount <= 0 || gGame.isMegaHint) return // Prevent multiple activations or no mega hints left
-//   gGame.isMegaHint = true
-//   gFirstCorner = null
-//   gSeconedCorner = null
-// }
-// function revealMegaHintArea() {
-//   if (!gFirstCorner || !gSeconedCorner) return
-
-//   for (var i = gFirstCorner.i; i <= gSeconedCorner.i; i++) {
-//     for (var j = gFirstCorner.j; j <= gSeconedCorner.j; j++) {
-//       var elCell = document.querySelector(`.cell-${i}-${j}`)
-//       var elSpan = elCell.querySelector('span')
-//       elSpan.classList.remove('hidden')
-//     }
-//   }
-
-//   setTimeout(() => {
-//     // Hide the area again after 2 seconds
-//     for (var i = gFirstCorner.i; i <= gSeconedCorner.i; i++) {
-//       for (var j = gFirstCorner.j; j <= gSeconedCorner.j; j++) {
-//         var elCell = document.querySelector(`.cell-${i}-${j}`)
-//         var elSpan = elCell.querySelector('span')
-//         elSpan.classList.add('hidden')
-//       }
-//     }
-//     gGame.isMegaHint = false
-//     gMegaHintCount--
-//     console.log('Mega Hint used. Area hidden again.')
-//   }, 2000)
-// }
-function mineExterminator() {
-  var countToEliminate = 0
-  if (gMinesToMark === 0) return
-  if (gLevel.Mines === 2) {
-    countToEliminate = 2
-  } else {
-    countToEliminate = 3
+function activeMegaHint() {
+  if (gGame.isFirstClicked) return
+  if (gMegaHintCount <= 0 || gGame.isMegaHint) return // Prevent multiple activations or no mega hints left
+  gGame.isMegaHint = true
+  gFirstCorner = null
+  gSeconedCorner = null
+}
+function revealMegaHintArea() {
+  if (!gFirstCorner || !gSeconedCorner) return
+  for (var i = gFirstCorner.i; i <= gSeconedCorner.i; i++) {
+    for (var j = gFirstCorner.j; j <= gSeconedCorner.j; j++) {
+      var elCell = document.querySelector(`.cell-${i}-${j}`)
+      var elSpan = elCell.querySelector('span')
+      elSpan.classList.remove('hidden')
+      elCell.classList.add('mega-hint')
+    }
   }
+
+  setTimeout(() => {
+    // Hide the area again after 2 seconds
+    for (var i = gFirstCorner.i; i <= gSeconedCorner.i; i++) {
+      for (var j = gFirstCorner.j; j <= gSeconedCorner.j; j++) {
+        var elCell = document.querySelector(`.cell-${i}-${j}`)
+        var elSpan = elCell.querySelector('span')
+        elSpan.classList.add('hidden')
+        elCell.classList.remove('mega-hint')
+      }
+    }
+    gGame.isMegaHint = false
+    gMegaHintCount--
+    console.log('Mega Hint used. Area hidden again.')
+  }, 2000)
+}
+function mineExterminator() {
+  var countToEliminate = 1
+  if (gMinesToMark === 0) return
+
   gMinesToMark -= countToEliminate
   elMarkedMine.innerHTML = gMinesToMark
   let minesToEliminate = []
@@ -432,6 +433,10 @@ function darkMode() {
   }
 }
 function setLevel(size, mines) {
+  if (gGame.isOn) {
+    stopTimer()
+    gGame.isOn = false
+  }
   gLevel.Size = size
   gLevel.Mines = mines
   gGame.isFirstClicked = true
@@ -447,6 +452,7 @@ function restartGame(emoji) {
     '.manual-mine-counter-container'
   )
   elMineCounterContainer.style.display = 'none'
+  gLevel = { Size: 4, Mines: 2 }
   resetTimer()
   onInit()
 

@@ -162,7 +162,7 @@ body {
 }
 
 /* Mega Hint Button */
-/* .mega-hint-btn {
+.mega-hint-btn {
   font-size: 1.5rem;
   background-color: #ff9800;
   color: white;
@@ -173,7 +173,7 @@ body {
 }
 .mega-hint-btn:hover {
   background-color: #00e62a;
-} */
+}
 
 /* Difficulty */
 .difficulty {
@@ -279,6 +279,9 @@ td:hover {
 
 .show {
   background-color: #00796b;
+}
+.mega-hint {
+  background-color: yellow !important;
 }
 
 .hidden {
